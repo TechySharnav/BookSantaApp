@@ -31,7 +31,6 @@ export default class LoginScreen extends Component {
   }
 
   Login = async () => {
-    console.log(this.state);
     var email = this.state.emailID;
     var pwd = this.state.password;
 
@@ -42,9 +41,9 @@ export default class LoginScreen extends Component {
           .signInWithEmailAndPassword(email, pwd);
         if (response) {
           {
-            // this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Tab");
           }
-          Alert.alert("Logged in Successfully");
+          //Alert.alert("Logged in Successfully");
         }
       } catch (err) {
         Alert.alert(err.message);
@@ -57,7 +56,6 @@ export default class LoginScreen extends Component {
   signIn = async () => {
     var email = this.state.emailID;
     var pwd = this.state.password;
-    console.log(this.state);
 
     if (email && pwd) {
       if (pwd === this.state.confirmPass) {
@@ -73,9 +71,9 @@ export default class LoginScreen extends Component {
               PhoneNo: this.state.phoneNo,
               Email: this.state.emailID,
             });
-            //this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Tab");
 
-            Alert.alert("Success", "Registered Successfully");
+            //Alert.alert("Success", "Registered Successfully");
           }
         } catch (err) {
           Alert.alert(err.message);
