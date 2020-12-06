@@ -41,7 +41,7 @@ export default class LoginScreen extends Component {
           .signInWithEmailAndPassword(email, pwd);
         if (response) {
           {
-            this.props.navigation.navigate("Tab");
+            this.props.navigation.navigate("Drawer");
           }
           //Alert.alert("Logged in Successfully");
         }
@@ -71,7 +71,7 @@ export default class LoginScreen extends Component {
               PhoneNo: this.state.phoneNo,
               Email: this.state.emailID,
             });
-            this.props.navigation.navigate("Tab");
+            this.props.navigation.navigate("Drawer");
 
             //Alert.alert("Success", "Registered Successfully");
           }
