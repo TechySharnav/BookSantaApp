@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-
 import { createDrawerNavigator } from "react-navigation-drawer";
+import SettingsScreen from "../screen/SettingsScreen";
 import TabNavigator from "./TabNavigator";
 import CustomSideBar from "./customSideBar";
 import { Image } from "react-native";
@@ -21,6 +21,9 @@ const DrawerNavigator = createDrawerNavigator(
           />
         ),
       },
+    },
+    Settings: {
+      screen: SettingsScreen,
     },
   },
   {

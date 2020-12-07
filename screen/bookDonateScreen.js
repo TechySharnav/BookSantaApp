@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { View, FlatList, Text, TouchableOpacity, ListItem } from "react-native";
+import { View, FlatList, Text, TouchableOpacity } from "react-native";
 import db from "../config";
-import { Header } from "react-native-elements";
+import { Header, ListItem } from "react-native-elements";
 
 export default class bookDonateScreen extends Component {
   constructor() {
@@ -56,7 +56,7 @@ export default class bookDonateScreen extends Component {
         <FlatList
           data={this.state.allRequests}
           renderItem={({ item, index }) => (
-            <ListItem
+            /*<ListItem
               style={{ alignItems: "center", marginTop: 5 }}
               containerStyle={{
                 backgroundColor: "#c4dcdf",
@@ -73,7 +73,7 @@ export default class bookDonateScreen extends Component {
                   <Text>View</Text>
                 </TouchableOpacity>
               )}
-            />
+            />*/ <View></View>
           )}
           keyExtractor={(item, index) => {
             index.toString();

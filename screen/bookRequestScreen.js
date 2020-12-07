@@ -9,8 +9,7 @@ import {
   Alert,
   FlatList,
 } from "react-native";
-import { ListItem } from "react-native-elements";
-import { Header } from "react-native-elements";
+import { Header, ListItem } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
 
@@ -272,7 +271,7 @@ export default class bookRequestScreen extends Component {
         <FlatList
           data={this.state.allRequests}
           renderItem={({ item, index }) => (
-            <ListItem
+            /*<ListItem
               style={{
                 alignItems: "center",
                 marginTop: 20,
@@ -293,10 +292,10 @@ export default class bookRequestScreen extends Component {
                   <Text>View</Text>
                 </TouchableOpacity>
               )}
-            />
+            />*/ <View></View>
           )}
           keyExtractor={(item, index) => {
-            index + "";
+            index.toString();
           }}
         />
       </View>

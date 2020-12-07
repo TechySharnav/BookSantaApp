@@ -11,6 +11,15 @@ export default class CustomSideBar extends Component {
           <DrawerItems {...this.props} />
         </View>
         <View style={styles.lowerContainer}>
+          <Image
+            source={require("../assets/logoutIcon.png")}
+            style={{
+              width: 28,
+              height: 28,
+              marginLeft: 5,
+              tintColor: "#465461",
+            }}
+          />
           <TouchableOpacity
             style={{
               marginLeft: 20,
@@ -20,16 +29,6 @@ export default class CustomSideBar extends Component {
               firebase.auth().signOut();
             }}
           >
-            <Image
-              source={require("../assets/logoutIcon.png")}
-              style={{
-                width: 28,
-                height: 28,
-                marginLeft: 5,
-                tintColor: "#465461",
-              }}
-            />
-
             <Text style={{ fontWeight: "bold", color: "#465461" }}>Logout</Text>
           </TouchableOpacity>
         </View>
