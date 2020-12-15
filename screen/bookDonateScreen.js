@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, FlatList, Text, TouchableOpacity } from "react-native";
 import db from "../config";
 import { Header, ListItem } from "react-native-elements";
+import firebase from "firebase";
 
 export default class bookDonateScreen extends Component {
   constructor() {
@@ -27,16 +28,24 @@ export default class bookDonateScreen extends Component {
         },
         (error) => this.unsub()
       );
-
-    console.log(this.state, "fetch");
   };
 
   async componentDidMount() {
     await this.fetchRequests();
-    await setTimeout(() => {
+    setTimeout(() => {
+      for (var i in this.state.allRequests) {
+        console.log(this.state.allRequests[i].RequesterEmail);
+        if (
+          this.state.allRequests[i].RequesterEmail ===
+          firebase.auth().currentUser.email
+        ) {
+          this.state.allRequests.splice(0, 1);
+        }
+      }
+    }, 1000);
+    setTimeout(() => {
       this.setState({ func: true });
-      console.log(this.state, "mount");
-    }, 2000);
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -56,7 +65,7 @@ export default class bookDonateScreen extends Component {
         <FlatList
           data={this.state.allRequests}
           renderItem={({ item, index }) => (
-            /*<ListItem
+            <ListItem
               style={{ alignItems: "center", marginTop: 5 }}
               containerStyle={{
                 backgroundColor: "#c4dcdf",
@@ -69,11 +78,17 @@ export default class bookDonateScreen extends Component {
               title={`Name: ${item.Name}`}
               subtitle={`Book: ${item.BookName}`}
               rightElement={() => (
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate("ReceiverDetails", {
+                      Details: item,
+                    })
+                  }
+                >
                   <Text>View</Text>
                 </TouchableOpacity>
               )}
-            />*/ <View></View>
+            />
           )}
           keyExtractor={(item, index) => {
             index.toString();

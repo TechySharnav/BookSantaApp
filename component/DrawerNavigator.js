@@ -3,6 +3,8 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 import SettingsScreen from "../screen/SettingsScreen";
 import TabNavigator from "./TabNavigator";
 import CustomSideBar from "./customSideBar";
+import MyDonationScreen from "../screen/MyDonationScreen";
+import NotificationScreen from "../screen/notificationScreen";
 import { Image } from "react-native";
 
 const DrawerNavigator = createDrawerNavigator(
@@ -24,8 +26,40 @@ const DrawerNavigator = createDrawerNavigator(
     },
     Settings: {
       screen: SettingsScreen,
+      navigationOptions: {
+        drawerIcon: ({ focused }) => (
+          <Image
+            source={require("../assets/settingsIcon.png")}
+            style={{
+              width: 32,
+              height: 32,
+              tintColor: focused ? "#ff893b" : "#465461",
+            }}
+          />
+        ),
+      },
+    },
+    MyDonation: {
+      screen: MyDonationScreen,
+      navigationOptions: {
+        title: "My Donations",
+        drawerIcon: ({ focused }) => (
+          <Image
+            source={require("../assets/MyDonate.png")}
+            style={{
+              width: 32,
+              height: 32,
+              tintColor: focused ? "#ff893b" : "#465461",
+            }}
+          />
+        ),
+      },
+    },
+    Notifications: {
+      screen: NotificationScreen,
     },
   },
+
   {
     contentComponent: CustomSideBar,
     contentOptions: {

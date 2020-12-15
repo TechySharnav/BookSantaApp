@@ -108,7 +108,7 @@ export default class bookRequestScreen extends Component {
           style={styles.textInputStyle}
           placeholder="Enter Name"
           onChangeText={(txt) => {
-            this.setState({ name: txt });
+            this.setState({ Name: txt });
           }}
         ></TextInput>
         <TextInput
@@ -136,7 +136,7 @@ export default class bookRequestScreen extends Component {
             style={[styles.textInputStyle, { width: 100, marginRight: 20 }]}
             placeholder="Age"
             onChangeText={(txt) => {
-              this.setState({ age: txt });
+              this.setState({ Age: txt });
             }}
           ></TextInput>
           <TextInput
@@ -146,7 +146,7 @@ export default class bookRequestScreen extends Component {
             style={[styles.textInputStyle, { width: 220 }]}
             placeholder="PhoneNo"
             onChangeText={(txt) => {
-              this.setState({ phoneNo: txt });
+              this.setState({ PhoneNo: txt });
             }}
           ></TextInput>
         </View>
@@ -218,7 +218,10 @@ export default class bookRequestScreen extends Component {
               margin: 10,
               marginTop: 20,
             }}
-            onPress={this.submitRequest}
+            onPress={() => {
+              this.submitRequest;
+              this.setState({ btnDisabled: true });
+            }}
           >
             <Text
               style={{
@@ -271,7 +274,7 @@ export default class bookRequestScreen extends Component {
         <FlatList
           data={this.state.allRequests}
           renderItem={({ item, index }) => (
-            /*<ListItem
+            <ListItem
               style={{
                 alignItems: "center",
                 marginTop: 20,
@@ -292,7 +295,7 @@ export default class bookRequestScreen extends Component {
                   <Text>View</Text>
                 </TouchableOpacity>
               )}
-            />*/ <View></View>
+            />
           )}
           keyExtractor={(item, index) => {
             index.toString();

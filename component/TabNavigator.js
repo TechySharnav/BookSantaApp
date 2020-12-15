@@ -4,12 +4,12 @@ import bookDonateScreen from "../screen/bookDonateScreen";
 import bookRequestScreen from "../screen/bookRequestScreen";
 //import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-
+import StackNavigator from "./StackNavigator";
 //const Tab = createBottomTabNavigator();
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Donate: { screen: bookDonateScreen },
+    Donate: { screen: StackNavigator },
     Request: { screen: bookRequestScreen },
   },
   {
