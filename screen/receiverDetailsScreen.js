@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View, ScrollView, Alert } from "react-native";
 import { Header, Card } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
+import MyHeader from "../component/MyHeader";
 
 export default class receiverDetailsScreen extends Component {
   constructor() {
@@ -45,13 +46,7 @@ export default class receiverDetailsScreen extends Component {
   render() {
     return (
       <View>
-        <Header
-          backgroundColor="#ff893b"
-          centerComponent={{
-            text: "Book Santa",
-            style: { color: "#ecf3f4", fontSize: 18 },
-          }}
-        ></Header>
+        <MyHeader navigation={this.props.navigation} />
         <ScrollView contentContainerStyle={{ paddingBottom: 125 }}>
           <Card
             title="Book Information"

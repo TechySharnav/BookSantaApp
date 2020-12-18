@@ -5,6 +5,7 @@ import db from "../config";
 import firebase from "firebase";
 import { TouchableOpacity } from "react-native";
 import { Alert } from "react-native";
+import MyHeader from "../component/MyHeader";
 
 export default class NotificationScreen extends Component {
   constructor() {
@@ -59,13 +60,7 @@ export default class NotificationScreen extends Component {
   render() {
     return (
       <View>
-        <Header
-          backgroundColor="#ff893b"
-          centerComponent={{
-            text: "Book Santa",
-            style: { color: "#ecf3f4", fontSize: 18 },
-          }}
-        ></Header>
+        <MyHeader navigation={this.props.navigation} />
 
         <FlatList
           data={this.state.allNotif}

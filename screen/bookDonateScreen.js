@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { View, FlatList, Text, TouchableOpacity } from "react-native";
 import db from "../config";
-import { Header, ListItem } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import firebase from "firebase";
+import MyHeader from "../component/MyHeader";
 
 export default class bookDonateScreen extends Component {
   constructor() {
@@ -55,13 +56,7 @@ export default class bookDonateScreen extends Component {
   render() {
     return (
       <View>
-        <Header
-          backgroundColor="#ff893b"
-          centerComponent={{
-            text: "Book Santa",
-            style: { color: "#ecf3f4", fontSize: 18 },
-          }}
-        ></Header>
+        <MyHeader navigation={this.props.navigation} />
         <FlatList
           data={this.state.allRequests}
           renderItem={({ item, index }) => (

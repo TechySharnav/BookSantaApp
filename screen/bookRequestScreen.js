@@ -12,6 +12,7 @@ import {
 import { Header, ListItem } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
+import MyHeader from "../component/MyHeader";
 
 export default class bookRequestScreen extends Component {
   constructor() {
@@ -241,13 +242,7 @@ export default class bookRequestScreen extends Component {
   render() {
     return (
       <View>
-        <Header
-          backgroundColor="#ff893b"
-          centerComponent={{
-            text: "Book Santa",
-            style: { color: "#ecf3f4", fontSize: 18 },
-          }}
-        ></Header>
+        <MyHeader navigation={this.props.navigation} />
         <this.showModal />
         <TouchableOpacity
           disabled={this.state.btnDisabled}

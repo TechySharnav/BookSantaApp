@@ -9,6 +9,7 @@ import {
 import { Header } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
+import MyHeader from "../component/MyHeader";
 
 export default class SettingsScreen extends Component {
   constructor() {
@@ -60,13 +61,7 @@ export default class SettingsScreen extends Component {
   render() {
     return (
       <View>
-        <Header
-          backgroundColor="#ff893b"
-          centerComponent={{
-            text: "Book Santa",
-            style: { color: "#ecf3f4", fontSize: 18 },
-          }}
-        ></Header>
+        <MyHeader navigation={this.props.navigation} />
         <TextInput
           value={this.state.Name}
           style={styles.textInputStyle}
