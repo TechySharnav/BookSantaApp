@@ -32,6 +32,8 @@ export default class bookRequestScreen extends Component {
       btnDisabled: true,
       func: false,
       allRequests: [],
+      allDocID: [],
+      index: null,
     };
   }
 
@@ -46,6 +48,21 @@ export default class bookRequestScreen extends Component {
     console.log(this.state);
   };
 
+  AskUserforBookReceived = () => {
+    Alert.alert("Warning", "Did you received the book?", [
+      { text: "No" },
+      { text: "Yes", onPress: this.updateStatus },
+    ]);
+  };
+
+  updateStatus = async () => {
+    db.collection("BookRequests")
+      .doc(this.state.allDocID[this.state.index])
+      .update({
+        Status: "received",
+      });
+  };
+
   getRequests = async () => {
     var email = await firebase.auth().currentUser.email;
     this.unsub = await db
@@ -56,6 +73,7 @@ export default class bookRequestScreen extends Component {
           query.docs.map(async (doc) => {
             await this.setState({
               allRequests: [...this.state.allRequests, doc.data()],
+              allDocID: [...this.state.allDocID, doc.id],
             });
           });
         },
@@ -75,8 +93,9 @@ export default class bookRequestScreen extends Component {
       this.setState({ func: true });
       this.setState({ btnDisabled: false });
       for (var i in this.state.allRequests) {
-        if (this.state.allRequests[i].Status === "pending") {
+        if (this.state.allRequests[i].Status !== "received") {
           this.setState({ btnDisabled: true });
+          this.setState({ index: i });
         }
       }
     }, 2000);
@@ -251,7 +270,7 @@ export default class bookRequestScreen extends Component {
             width: 32,
             height: 32,
             marginTop: -45,
-            marginLeft: 320,
+            marginLeft: 275,
           }}
           onPress={() => this.setState({ isVisible: true })}
         >
@@ -269,28 +288,30 @@ export default class bookRequestScreen extends Component {
         <FlatList
           data={this.state.allRequests}
           renderItem={({ item, index }) => (
-            <ListItem
-              style={{
-                alignItems: "center",
-                marginTop: 20,
-                opacity: item.Status === "pending" ? 0.5 : 1,
-              }}
-              containerStyle={{
-                backgroundColor: "#c4dcdf",
-                alignItems: "center",
-                borderWidth: 4,
-                borderColor: "#729ca2",
-                width: "98%",
-              }}
-              titleStyle={{ color: "#465461", fontWeight: "bold" }}
-              title={`Book: ${item.BookName}`}
-              subtitle={`Status: ${item.Status}`}
-              rightElement={() => (
-                <TouchableOpacity>
-                  <Text>View</Text>
-                </TouchableOpacity>
-              )}
-            />
+            <TouchableOpacity onPress={this.AskUserforBookReceived}>
+              <ListItem
+                style={{
+                  alignItems: "center",
+                  marginTop: 20,
+                  opacity: item.Status === "pending" ? 0.5 : 1,
+                }}
+                containerStyle={{
+                  backgroundColor: "#c4dcdf",
+                  alignItems: "center",
+                  borderWidth: 4,
+                  borderColor: "#729ca2",
+                  width: "98%",
+                }}
+                titleStyle={{ color: "#465461", fontWeight: "bold" }}
+                title={`Book: ${item.BookName}`}
+                subtitle={`Status: ${item.Status}`}
+                rightElement={() => (
+                  <TouchableOpacity>
+                    <Text>View</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </TouchableOpacity>
           )}
           keyExtractor={(item, index) => {
             index.toString();

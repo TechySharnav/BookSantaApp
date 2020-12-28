@@ -72,7 +72,7 @@ export default class MyDonationScreen extends Component {
                 }}
                 titleStyle={{ color: "#465461", fontWeight: "bold" }}
                 title={`Name: ${item.Name}`}
-                subtitle={`Book: ${item.BookName}`}
+                subtitle={`Book: ${item.BookName}\n Status:${item.Status}`}
                 rightElement={() => (
                   <TouchableOpacity
                     onPress={() =>

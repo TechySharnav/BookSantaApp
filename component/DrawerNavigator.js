@@ -5,6 +5,7 @@ import TabNavigator from "./TabNavigator";
 import CustomSideBar from "./customSideBar";
 import MyDonationScreen from "../screen/MyDonationScreen";
 import NotificationScreen from "../screen/notificationScreen";
+import MyReceivedBooksScreen from "../screen/MyReceivedBookScreen";
 import { Image } from "react-native";
 
 const DrawerNavigator = createDrawerNavigator(
@@ -57,6 +58,9 @@ const DrawerNavigator = createDrawerNavigator(
     },
     Notifications: {
       screen: NotificationScreen,
+    },
+    MyReceivedBooks: {
+      screen: MyReceivedBooksScreen,
     },
   },
 

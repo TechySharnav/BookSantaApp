@@ -1,11 +1,19 @@
 import React, { Component } from "react";
-import { FlatList, StyleSheet, Text, View, Image } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Animated,
+} from "react-native";
 import { Header, ListItem } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
 import { TouchableOpacity } from "react-native";
 import { Alert } from "react-native";
 import MyHeader from "../component/MyHeader";
+import SwipableFlatList from "../component/SwipableFlatList";
 
 export default class NotificationScreen extends Component {
   constructor() {
@@ -13,17 +21,12 @@ export default class NotificationScreen extends Component {
 
     this.state = {
       allNotif: [],
+      allDocID: [],
       DonorName: "",
       index: 0,
+      func: false,
     };
   }
-
-  AskUserforBookReceived = () => {
-    Alert.alert("Warning", "Did you received the book?", [
-      { text: "No" },
-      { text: "Yes" },
-    ]);
-  };
 
   getNotification = async () => {
     var q = await db
@@ -33,7 +36,10 @@ export default class NotificationScreen extends Component {
       .get();
 
     q.docs.map((doc) =>
-      this.setState({ allNotif: [...this.state.allNotif, doc.data()] })
+      this.setState({
+        allNotif: [...this.state.allNotif, doc.data()],
+        allDocID: [...this.state.allDocID, doc.id],
+      })
     );
 
     for (var i in this.state.allNotif) {
@@ -58,11 +64,19 @@ export default class NotificationScreen extends Component {
   }
 
   render() {
-    return (
-      <View>
-        <MyHeader navigation={this.props.navigation} />
+    if (this.state.allNotif.length > 0) {
+      return (
+        <View>
+          <MyHeader navigation={this.props.navigation} />
 
-        <FlatList
+          <Animated.View>
+            <SwipableFlatList
+              allDocID={this.state.allDocID}
+              donor={this.state.DonorName}
+              allNotifications={this.state.allNotif}
+            />
+          </Animated.View>
+          {/*<FlatList
           data={this.state.allNotif}
           renderItem={({ item, index }) => (
             <TouchableOpacity
@@ -92,8 +106,17 @@ export default class NotificationScreen extends Component {
           keyExtractor={(item, index) => {
             index.toString();
           }}
-        />
-      </View>
-    );
+        />*/}
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <MyHeader navigation={this.props.navigation} />
+
+          <Text>No Notifications!!</Text>
+        </View>
+      );
+    }
   }
 }
