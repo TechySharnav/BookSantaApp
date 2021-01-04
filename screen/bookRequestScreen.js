@@ -8,11 +8,13 @@ import {
   TextInput,
   Alert,
   FlatList,
+  TouchableHighlight,
 } from "react-native";
 import { Header, ListItem } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
 import MyHeader from "../component/MyHeader";
+import { BookSearch } from "react-native-google-books";
 
 export default class bookRequestScreen extends Component {
   constructor() {
@@ -33,9 +35,52 @@ export default class bookRequestScreen extends Component {
       func: false,
       allRequests: [],
       allDocID: [],
+      dataSource: null,
+      FlatlistFlag: false,
       index: null,
+      bookNameAPI: "",
+      imageURI: null,
     };
   }
+
+  getBooksFromAPI = async (bookName) => {
+    console.log("Working");
+    if (bookName.length > 4) {
+      let book = await BookSearch.searchbook(
+        bookName,
+        "AIzaSyAYschQ20HGA6pyj4fB_bwyLGC1OtWUVXw"
+      );
+      this.setState({ dataSource: book.data, FlatlistFlag: true });
+    } else {
+      this.setState({ FlatlistFlag: false });
+    }
+  };
+
+  renderItemforAPI = ({ item, index }) => {
+    return (
+      <View>
+        <TouchableHighlight
+          onPress={() => {
+            this.setState(
+              {
+                bookName: item.volumeInfo.title,
+                FlatlistFlag: false,
+                imageURI: this.state.dataSource[index].volumeInfo.imageLinks
+                  .smallThumbnail,
+              },
+              () => {
+                console.log(this.state.imageURI);
+              }
+            );
+          }}
+          activeOpacity={0.6}
+          underlayColor="#c4dcdf"
+        >
+          <Text>{item.volumeInfo.title}</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  };
 
   getValue = async () => {
     var email = await firebase.auth().currentUser.email;
@@ -102,7 +147,7 @@ export default class bookRequestScreen extends Component {
   }
 
   submitRequest = async () => {
-    db.collection("BookRequests").add({
+    await db.collection("BookRequests").add({
       AuthorName: this.state.authorName,
       BookName: this.state.bookName,
       DeliverAddress: this.state.Address,
@@ -111,6 +156,7 @@ export default class bookRequestScreen extends Component {
       Status: this.state.Status,
       Name: this.state.Name,
       UID: eval(this.generateUID()),
+      image: this.state.imageURI,
     });
     Alert.alert("Success", "Request Submitted Successfully");
     this.setState({ isVisible: false });
@@ -178,12 +224,35 @@ export default class bookRequestScreen extends Component {
           }}
         >
           <TextInput
+            value={this.state.bookName}
             style={[styles.textInputStyle, { width: "45%", marginRight: 20 }]}
             placeholder="Book Name"
             onChangeText={(txt) => {
-              this.setState({ bookName: txt });
+              this.setState({ bookName: txt }, () => {
+                this.getBooksFromAPI(txt);
+              });
             }}
           ></TextInput>
+          <View>
+            {this.state.FlatlistFlag && (
+              <FlatList
+                contentContainerStyle={{
+                  alignItems: "center",
+                }}
+                style={{
+                  backgroundColor: "#fff",
+
+                  marginLeft: -45,
+                  borderWidth: 4,
+                  borderColor: "#729ca2",
+                  width: "98%",
+                }}
+                data={this.state.dataSource}
+                renderItem={this.renderItemforAPI}
+                keyExtractor={(item, index) => index.toString()}
+              ></FlatList>
+            )}
+          </View>
           <TextInput
             style={[styles.textInputStyle, { width: "45%" }]}
             placeholder="Author Name"
@@ -239,7 +308,7 @@ export default class bookRequestScreen extends Component {
               marginTop: 20,
             }}
             onPress={() => {
-              this.submitRequest;
+              this.submitRequest();
               this.setState({ btnDisabled: true });
             }}
           >

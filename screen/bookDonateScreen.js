@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, Text, TouchableOpacity } from "react-native";
+import { View, FlatList, Text, TouchableOpacity, Image } from "react-native";
 import db from "../config";
 import { ListItem } from "react-native-elements";
 import firebase from "firebase";
@@ -72,13 +72,20 @@ export default class bookDonateScreen extends Component {
               titleStyle={{ color: "#465461", fontWeight: "bold" }}
               title={`Name: ${item.Name}`}
               subtitle={`Book: ${item.BookName}`}
+              leftElement={
+                <Image
+                  style={{ width: 50, height: 50 }}
+                  source={{ uri: item.image }}
+                />
+              }
               rightElement={() => (
                 <TouchableOpacity
-                  onPress={() =>
+                  onPress={() => {
                     this.props.navigation.navigate("ReceiverDetails", {
                       Details: item,
-                    })
-                  }
+                    });
+                    console.log(item.image);
+                  }}
                 >
                   <Text>View</Text>
                 </TouchableOpacity>
